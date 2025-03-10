@@ -1,0 +1,57 @@
+[
+    {
+        "rule_id": "0",
+        "rule_sql": "SELECT 1 FROM orders WHERE order_id = :order_id AND user_id IN (SELECT user_id FROM blacklist)",
+        "rule_reason": "blacklist_user"
+    },
+    {
+        "rule_id": "1",
+        "rule_sql": "SELECT 1 FROM orders WHERE order_id = :order_id AND amount > 5000",
+        "rule_reason": "Transaction amount exceeds $5,000"
+    },
+    {
+        "rule_id": "2",
+        "rule_sql": "SELECT 1 FROM orders WHERE order_id = :order_id AND ip_country != user_country",
+        "rule_reason": "IP country does not match user's registered country"
+    },
+    {
+        "rule_id": "3",
+        "rule_sql": "SELECT 1 FROM blacklist WHERE user_id = :user_id",
+        "rule_reason": "User is in blacklist"
+    },
+    {
+        "rule_id": "4",
+        "rule_sql": "SELECT 1 FROM cards WHERE card_number = :card_number AND stolen = 1",
+        "rule_reason": "Card is reported as stolen"
+    },
+    {
+        "rule_id": "5",
+        "rule_sql": "SELECT 1 FROM orders WHERE user_id = :user_id AND amount = :amount AND order_time > DATETIME('now', '-10 minutes')",
+        "rule_reason": "Multiple transactions of the same amount in a short time"
+    },
+    {
+        "rule_id": "6",
+        "rule_sql": "SELECT 1 FROM devices WHERE device_id = :device_id AND blocked = 1",
+        "rule_reason": "Device is blocked due to suspicious activity"
+    },
+    {
+        "rule_id": "7",
+        "rule_sql": "SELECT 1 FROM orders WHERE user_id = :user_id AND amount > (SELECT AVG(amount) * 3 FROM orders WHERE user_id = :user_id)",
+        "rule_reason": "Transaction amount is three times higher than user's average"
+    },
+    {
+        "rule_id": "8",
+        "rule_sql": "SELECT 1 FROM orders WHERE user_id = :user_id AND order_status = 'failed' AND order_time > DATETIME('now', '-5 minutes')",
+        "rule_reason": "Repeated attempts after a failed transaction"
+    },
+    {
+        "rule_id": "9",
+        "rule_sql": "SELECT 1 FROM orders WHERE ip_address = :ip_address GROUP BY ip_address HAVING COUNT(DISTINCT user_id) > 3",
+        "rule_reason": "Multiple users using the same IP address"
+    },
+    {
+        "rule_id": "10",
+        "rule_sql": "SELECT 1 FROM users WHERE user_id = :user_id AND signup_date > DATETIME('now', '-7 days') AND amount > 1000",
+        "rule_reason": "High-value transaction from a newly created account"
+    }
+]
