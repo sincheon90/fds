@@ -49,10 +49,7 @@ def isBlock(order_data):
         order_id=order_data["order_id"],
         user_id=order_data["user_id"],
         amount=order_data["amount"],
-
-# order id로 탐지, 주문 기준 탐지이기때문에 유저 보다는 order로
-# 반환 값은 탐지를 리스트, 블록 여부, 블록리스트 등록 여부 필요? 일단 룰 종류를 반환 받고 에러 메시지 알림에 띄우는 것은 나중에
- order_time=datetime.fromisoformat(order_data["order_time"]),
+        order_time=datetime.fromisoformat(order_data["order_time"]),
         # order_status=order_data["order_status"]
     ))
 
